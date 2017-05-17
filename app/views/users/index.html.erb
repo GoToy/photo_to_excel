@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Users</h1>
+
+
+<table>
+<caption align="left">Friend Request</caption>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users_requested.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= link_to 'Accept', accept_friendship_user_path(user) %></td>
+        <td><%= link_to 'Decline', decline_friendship_user_path(user) %></td>  
+       
+       
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<table>
+<caption align="left">Become Friends</caption>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= link_to 'Request', make_friendship_user_path(user) %></td> 
+       
+       
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<table>
+<caption align="left">Pending Friends</caption>
+  <thead>
+    <tr>
