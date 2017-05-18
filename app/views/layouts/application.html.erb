@@ -9,6 +9,37 @@
   </head>
 
   <body>
-    <%= yield %>
-  </body>
+<div class="container-fluid">
+<div class="row">
+   <div class="col-md-6">
+<h3><strong>Photo to Excel</strong></h3>
+   </div>
+   <div class="col-md-6 text-right"> 
+       <div id="user_nav">
+    <% if user_signed_in? %>
+        Signed in as <%= current_user.email %>. 
+        <%= link_to 'Sign out', destroy_user_session_path, :method => 'delete' %>
+    <% else %>
+        <br/>
+        <%= link_to 'Register', new_user_registration_path %> or <%= link_to 'Sign in', new_user_session_path %> 
+ <% end %>
+       </div>
+   </div>
+</div>
+<div style="border-top: solid;">
+<div class="row">
+    <div class="col-md-2">
+<ul class="nav nav-pills nav-stacked">
+   <li><%= link_to 'Photo', new_post_path %></li>
+   <li><%= link_to 'My Uploads', posts_path %></li>
+   <li><%= link_to 'Friends', users_path %></li>
+</ul>
+    </div>
+    <div class="col-md-10 text-center">
+<br>
+<%= yield %>
+
+</div>
+</div>
+ </body>
 </html>
