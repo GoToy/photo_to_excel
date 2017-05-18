@@ -46,5 +46,46 @@
 <br>
 <table>
 <caption align="left">Pending Friends</caption>
-  <thead>
-    <tr>
+    <thead>
+     <tr>
+       <th colspan="3"></th>
+     </tr>
+   </thead>
+  
+    <tbody>
+      <% @users_pending.each do |user| %>
+        <tr>
+         <td><%= user.email %></td>
+  
+ 
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br>
+  
+  <table>
+  <caption align="left">Friends</caption>
+   <thead>
+      <tr>
+        <th colspan="3"></th>
+     </tr>
+    </thead>
+ 
+   <tbody>
+      <% @users_friends.each do |user| %>
+      <tr>
+       <td><%= user.email %></td>
+       <td><%= link_to 'Remove', remove_friendship_user_path(user), :method => :delete  %></td>
+ 
+  
+      </tr>
+   <% end %>
+  </tbody>
+ </table> 
+ 
+ <br>
+<%= link_to 'Photo', new_post_path %><br>
+<%= link_to 'My Uploads', posts_path %><br>
+<%= link_to 'Friends', users_path %><br>
+
