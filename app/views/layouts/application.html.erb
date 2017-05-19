@@ -10,15 +10,17 @@
 
   <body>
 <div class="container-fluid">
-<div class="row">
+<div class="row page-header">
    <div class="col-md-6">
 <h3><strong>Photo to Excel</strong></h3>
    </div>
    <div class="col-md-6 text-right"> 
        <div id="user_nav">
     <% if user_signed_in? %>
-        Signed in as <%= current_user.email %>. 
+        Signed in as <%= current_user.username %>.
+       <button type="button" class="btn btn-default navbar-btn"> 
         <%= link_to 'Sign out', destroy_user_session_path, :method => 'delete' %>
+       </button>
     <% else %>
         <br/>
         <%= link_to 'Register', new_user_registration_path %> or <%= link_to 'Sign in', new_user_session_path %> 
@@ -26,7 +28,6 @@
        </div>
    </div>
 </div>
-<div style="border-top: solid;">
 <div class="row">
     <div class="col-md-2">
 <ul class="nav nav-pills nav-stacked">
