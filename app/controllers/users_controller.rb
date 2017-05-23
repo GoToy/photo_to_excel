@@ -8,6 +8,7 @@ class UsersController < ApplicationController
     @users_requested = current_user.requested_friends
     @users_pending = current_user.pending_friends
     @users_friends = current_user.friends
+    @users_become = User.where.not(id: [current_user.id, current_user.friends, current_user.pending_friends, current_user.requested_friends]) 
   end
 
   # GET /users/1

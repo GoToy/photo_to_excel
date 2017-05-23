@@ -1,17 +1,18 @@
 <p id="notice"><%= notice %></p>
 
-<table>
+<table class="table table-bordered">
 <caption>Friend Request</caption>
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <th>Name</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @users_requested.each do |user| %>
       <tr>
-        <td><%= user.email %></td>
+        <td><%= user.username %></td>
         <td><%= link_to 'Accept', accept_friendship_user_path(user) %></td>
         <td><%= link_to 'Decline', decline_friendship_user_path(user) %></td>  
        
@@ -21,18 +22,19 @@
   </tbody>
 </table>
 <br>
-<table>
+<table class="table table-bordered">
 <caption>Become Friends</caption>
   <thead>
     <tr>
-      <th colspan="3"></th>
+       <th>Name</th>
+       <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @users.each do |user| %>
+    <% @users_become.each do |user| %>
       <tr>
-        <td><%= user.email %></td>
+        <td><%= user.username %></td>
         <td><%= link_to 'Request', make_friendship_user_path(user) %></td> 
        
        
@@ -41,18 +43,18 @@
   </tbody>
 </table>
 <br>
-<table>
+<table class="table table-bordered">
 <caption>Pending Friends</caption>
     <thead>
      <tr>
-       <th colspan="3"></th>
+       <th>Name</th>
      </tr>
    </thead>
   
     <tbody>
       <% @users_pending.each do |user| %>
         <tr>
-         <td><%= user.email %></td>
+         <td><%= user.username %></td>
   
  
         </tr>
@@ -61,18 +63,19 @@
   </table>
   <br>
   
-  <table>
+  <table class="table table-bordered">
   <caption>Friends</caption>
    <thead>
       <tr>
-        <th colspan="3"></th>
+         <th>Name</th>
+         <th></th>
      </tr>
     </thead>
  
    <tbody>
       <% @users_friends.each do |user| %>
       <tr>
-       <td><%= user.email %></td>
+       <td><%= user.username %></td>
        <td><%= link_to 'Remove', remove_friendship_user_path(user), :method => :delete  %></td>
  
   
