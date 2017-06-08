@@ -146,6 +146,7 @@ GEM
     refining (0.0.5.5)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    ruby-opencv (0.0.18)
     sass (3.4.23)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -216,6 +217,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   puma (~> 3.0)
   rails (~> 5.0.1)
+  ruby-opencv
   sass-rails (~> 5.0)
   spring
   spring-watcher-listen (~> 2.0.0)
