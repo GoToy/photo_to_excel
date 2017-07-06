@@ -7,8 +7,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 gem 'ruby-opencv'
+gem 'rmagick'
 gem 'tesseract-ocr'
-# gem 'rtesseract'
+gem 'rtesseract'
 gem 'carrierwave', '~> 1.0'
 gem 'devise'
 gem 'dotenv'

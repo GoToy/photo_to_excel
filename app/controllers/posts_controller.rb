@@ -10,6 +10,9 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
+    contour_arrays = @post.get_coordinate
+    mix_block = RTesseract::Mixed.new(@post.photo_url, {:areas => @post.formatted_coordinate_data})
+    @num_string = mix_block.to_s
   end
 
   # GET /posts/new

@@ -1,13 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Photo:</strong>
-  <%= @post.photo %>
-  <% if @post.photo %>
-  <%= image_tag @post.photo.url %>
-  <% else %>
-   <%= image_tag 'noimage.gif' %>
-   <% end %>
-  <%= @tesseract_data %>
+<strong>Photo:</strong>
+<%= @post.photo %>
+<% if @post.photo %>
+  <%= image_tag @post.photo.url, class: "img-thumbnail" %>
+  <%= @num_string %>
+<% else %>
+  <%= image_tag 'noimage.gif', class: "img-thumbnail" %>
+<% end %>
 </p>
 <%= link_to 'Back', posts_path %>
