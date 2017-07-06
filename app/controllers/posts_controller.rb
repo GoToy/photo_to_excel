@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :show_target_image]
 
   # GET /posts
   # GET /posts.json
@@ -10,9 +10,17 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
-    contour_arrays = @post.get_coordinate
-    mix_block = RTesseract::Mixed.new(@post.photo_url, {:areas => @post.formatted_coordinate_data})
-    @num_string = mix_block.to_s
+    @num_array = @post.convert2string
+  end
+
+  def show_target_image
+    image = Magick::Image.read(@post.absolute_photo_path).first
+    @cropped_image = image.crop(params[:x].to_i,
+                                params[:y].to_i,
+                                params[:w].to_i,
+                                params[:h].to_i)
+    @cropped_image.write('public/images/show_num.jpg')
+    @num_string = params[:num]
   end
 
   # GET /posts/new

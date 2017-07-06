@@ -5,7 +5,26 @@
 <%= @post.photo %>
 <% if @post.photo %>
   <%= image_tag @post.photo.url, class: "img-thumbnail" %>
-  <%= @num_string %>
+  <table class="table">
+    <tr>
+      <th class="text-center">x</th>
+      <th class="text-center">y</th>
+      <th class="text-center">w</th>
+      <th class="text-center">h</th>
+      <th class="text-center">number</th>
+      <th class="text-center">link</th>
+    </tr>
+    <% @num_array.each do |num| %>
+      <tr>
+        <td><%= num[:x] %></td>
+        <td><%= num[:y] %></td>
+        <td><%= num[:w] %></td>
+        <td><%= num[:h] %></td>
+        <td><%= num[:string] %></td>
+        <td><%= link_to "link", show_target_image_post_path(@post, x: num[:x], y: num[:y], w: num[:w], h: num[:h], num: num[:string]) %></td>
+      </tr>
+    <% end %>
+  </table>
 <% else %>
   <%= image_tag 'noimage.gif', class: "img-thumbnail" %>
 <% end %>
