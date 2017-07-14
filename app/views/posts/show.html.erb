@@ -5,6 +5,30 @@
 <%= @post.photo %>
 <% if @post.photo %>
   <%= image_tag @post.photo.url, class: "img-thumbnail" %>
+     <canvas id="check_errors" width, height = gon.width >
+     </canvas>
+<script type="application/javascript">
+ function init(){
+    // 画像の表示イベント
+    var img = new Image();
+    img.src = gon.photo_url;
+    img.onload = function(){
+        // 画像を表示
+        ctx.drawImage(img,0,0,0,0,0,0,0,0);
+        
+    }
+}
+
+// 実行をセット
+var ctx;
+document.body.onload = function(){
+
+    ctx = document.querySelector("#check_errors").getContext("2d");
+
+    init();
+
+}
+  </script>
   <table class="table">
     <tr>
       <th class="text-center">x</th>

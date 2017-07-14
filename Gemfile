@@ -6,6 +6,7 @@ git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
   "https://github.com/#{repo_name}.git"
 end
+gem 'gon'
 gem 'ruby-opencv'
 gem 'rmagick'
 gem 'tesseract-ocr'
@@ -53,6 +54,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'awesome_print'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
  gem "better_errors"
  gem 'web-console', '>= 3.3.0'

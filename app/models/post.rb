@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   require "opencv"
+  require "RMagick"
   mount_uploader :photo, PhotoUploader
   def get_coordinate
 
@@ -29,7 +30,7 @@ class Post < ApplicationRecord
     coordinate_data_array = []
     contour_array.each do |contour|
       if contour
-        if contour.rect.height > 100 && contour.rect.width > 100
+        if contour.rect.height > 75 && contour.rect.width > 75 && contour.rect.height < 130 && contour.rect.width < 130
           coordinate_data_hash = {}
           coordinate_data_hash[:x] = contour.rect.x
           coordinate_data_hash[:y] = contour.rect.y
@@ -47,6 +48,11 @@ class Post < ApplicationRecord
     Rails.root.to_s + "/public" + self.photo_url
   end
 
+  def image
+     img = Magick::Image.ping( self.absolute_photo_path ).first
+     width, height = img.columns, img.rows
+  end
+  
   def convert2string
     e = Tesseract::Engine.new { |e|
       e.language = :eng
