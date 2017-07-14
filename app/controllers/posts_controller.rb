@@ -12,7 +12,8 @@ class PostsController < ApplicationController
   def show
     @num_array = @post.convert2string
     gon.photo_url = @post.photo.url
-    width = @post.image
+    gon.width = @post.image.first
+    gon.height = @post.image.last
   end
 
   def show_target_image

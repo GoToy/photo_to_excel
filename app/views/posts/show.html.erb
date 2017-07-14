@@ -5,7 +5,7 @@
 <%= @post.photo %>
 <% if @post.photo %>
   <%= image_tag @post.photo.url, class: "img-thumbnail" %>
-     <canvas id="check_errors" width, height = gon.width >
+     <canvas id="check_errors" width = gon.width , height = gon.height >
      </canvas>
 <script type="application/javascript">
  function init(){
@@ -14,7 +14,7 @@
     img.src = gon.photo_url;
     img.onload = function(){
         // 画像を表示
-        ctx.drawImage(img,0,0,0,0,0,0,0,0);
+        ctx.drawImage(img,0,0,500,500);
         
     }
 }
