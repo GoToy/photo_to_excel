@@ -52,7 +52,7 @@ class Post < ApplicationRecord
      img = Magick::Image.ping( self.absolute_photo_path ).first
      width, height = img.columns, img.rows
   end
-  
+
   def convert2string
     e = Tesseract::Engine.new { |e|
       e.language = :eng
@@ -73,7 +73,7 @@ class Post < ApplicationRecord
       num_hash[:y] = formatted_coordinate[:y]
       num_hash[:w] = formatted_coordinate[:w]
       num_hash[:h] = formatted_coordinate[:h]
-      num_hash[:string] = e.text_for(image).strip
+      num_hash[:n] = e.text_for(image).strip
       num_array << num_hash
     end
 

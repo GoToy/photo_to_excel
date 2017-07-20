@@ -2,16 +2,26 @@
   var ctx;
   var img;
 
-  document.body.onload = function(){
+  $(document).on('turbolinks:load', function() {
     img = document.getElementById("original-image");
     ctx = document.getElementById("check_errors").getContext("2d");
     ctx.canvas.width = gon.width;
     ctx.canvas.height = gon.height;
+    ctx.drawImage(img, 0, 0);
+    gon.num_array.forEach(function(square){
+        ctx.rect(square.x, square.y, square.w, square.h);
+        ctx.lineWidth="4";
+        ctx.strokeStyle="red";
+        ctx.stroke();
+        ctx.font = "bold " + square.w + "px arial";
+        ctx.fillStyle="red";
+        ctx.fillText(square.n, square.x, square.y + square.h);
+    })
     ctx.canvas.style.width = '100%';
     ctx.canvas.style.height = '100%';
-    ctx.drawImage(img, 0, 0);
-  }
+  })
 </script>
+
 
 <p id="notice"><%= notice %></p>
 
@@ -42,8 +52,8 @@
         <td><%= num[:y] %></td>
         <td><%= num[:w] %></td>
         <td><%= num[:h] %></td>
-        <td><%= num[:string] %></td>
-        <td><%= link_to "link", show_target_image_post_path(@post, x: num[:x], y: num[:y], w: num[:w], h: num[:h], num: num[:string]) %></td>
+        <td><%= num[:n] %></td>
+        <td><%= link_to "link", show_target_image_post_path(@post, x: num[:x], y: num[:y], w: num[:w], h: num[:h], num: num[:n]) %></td>
       </tr>
     <% end %>
   </table>
@@ -52,3 +62,4 @@
 <% end %>
 </p>
 <%= link_to 'Back', posts_path %>
+

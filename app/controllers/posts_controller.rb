@@ -11,7 +11,7 @@ class PostsController < ApplicationController
   # GET /posts/1.json
   def show
     @num_array = @post.convert2string
-    gon.photo_url = @post.photo.url
+    gon.num_array = @num_array
     gon.width = @post.image.first
     gon.height = @post.image.last
   end
