@@ -1,33 +1,23 @@
-<script type="application/javascript">
-  var ctx;
-  var img;
-
-  $(document).on('turbolinks:load', function() {
-    img = document.getElementById("original-image");
-    ctx = document.getElementById("check_errors").getContext("2d");
-    ctx.canvas.width = gon.width;
-    ctx.canvas.height = gon.height;
-    ctx.drawImage(img, 0, 0);
-    gon.num_array.forEach(function(square){
-        ctx.rect(square.x, square.y, square.w, square.h);
-        ctx.lineWidth="4";
-        ctx.strokeStyle="red";
-        ctx.stroke();
-        ctx.font = "bold " + square.w + "px arial";
-        ctx.fillStyle="red";
-        ctx.fillText(square.n, square.x, square.y + square.h);
-    })
-    ctx.canvas.style.width = '100%';
-    ctx.canvas.style.height = '100%';
-  })
-</script>
-
-
 <p id="notice"><%= notice %></p>
 
 <p>
 <strong>Photo:</strong>
+
+
+<div class="row">
+  <div class="col-xs-12">
+    <h4>
+      <%= "現在マス目 #{@x_cell_num}個 で絞り込み中" %>
+    </h4>
+    <%= form_for(@post, url: {action: :show_with_restriction}, html: {method: :get})do |f| %>
+      <%= number_field_tag "x_cell_num", "", placeholder: "方眼紙のx方向のマスの数を入力してください", style: "width: 300px" %>
+      <%= submit_tag "絞り込む" %>
+    <% end %>
+  </div>
+</div>
+
 <%= @post.photo %>
+
 <% if @post.photo %>
   <div class="row">
     <div class="col-xs-6">
@@ -62,4 +52,29 @@
 <% end %>
 </p>
 <%= link_to 'Back', posts_path %>
+
+<script type="application/javascript">
+  var ctx;
+  var img;
+
+  $(document).on('turbolinks:load', function() {
+    img = document.getElementById("original-image");
+    ctx = document.getElementById("check_errors").getContext("2d");
+    ctx.canvas.width = gon.width;
+    ctx.canvas.height = gon.height;
+    ctx.drawImage(img, 0, 0);
+    gon.num_array.forEach(function(square){
+        ctx.rect(square.x, square.y, square.w, square.h);
+        ctx.lineWidth="4";
+        ctx.strokeStyle="red";
+        ctx.stroke();
+        ctx.font = "bold " + square.w + "px arial";
+        ctx.fillStyle="red";
+        ctx.fillText(square.n, square.x, square.y + square.h);
+    })
+    ctx.canvas.style.width = '100%';
+    ctx.canvas.style.height = '100%';
+  })
+</script>
+
 

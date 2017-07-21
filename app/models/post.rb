@@ -25,12 +25,13 @@ class Post < ApplicationRecord
     contour_array
   end
 
-  def formatted_coordinate_data
+  def formatted_coordinate_data(img_width, x_cell_num)
     contour_array = self.get_coordinate
     coordinate_data_array = []
     contour_array.each do |contour|
       if contour
-        if contour.rect.height > 75 && contour.rect.width > 75 && contour.rect.height < 130 && contour.rect.width < 130
+        cell_size =  img_width / x_cell_num
+        if (contour.rect.width >  cell_size/2) && (contour.rect.width < cell_size * 3/2) && (contour.rect.height > cell_size/2) && (contour.rect.height < cell_size * 3/2)
           coordinate_data_hash = {}
           coordinate_data_hash[:x] = contour.rect.x
           coordinate_data_hash[:y] = contour.rect.y
@@ -53,7 +54,7 @@ class Post < ApplicationRecord
      width, height = img.columns, img.rows
   end
 
-  def convert2string
+  def convert2string(x_cell_num)
     e = Tesseract::Engine.new { |e|
       e.language = :eng
       e.whitelist = '1234567890,'
@@ -61,7 +62,7 @@ class Post < ApplicationRecord
     original_image = Magick::Image.read(self.absolute_photo_path).first
     num_array = []
 
-    formatted_coordinates = self.formatted_coordinate_data
+    formatted_coordinates = self.formatted_coordinate_data(original_image.columns, x_cell_num)
 
     formatted_coordinates.each do |formatted_coordinate|
       image = original_image.crop(formatted_coordinate[:x],

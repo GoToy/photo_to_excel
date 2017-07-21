@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :show_target_image]
+  before_action :set_post, only: [:show, :show_with_restriction, :edit, :update, :destroy, :show_target_image]
 
   # GET /posts
   # GET /posts.json
@@ -10,10 +10,19 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
-    @num_array = @post.convert2string
+    @x_cell_num = params[:x_cell_num]&.to_i
+    unless @x_cell_num&.nonzero?
+      @x_cell_num = 10
+    end
+    @num_array = @post.convert2string(@x_cell_num)
     gon.num_array = @num_array
     gon.width = @post.image.first
     gon.height = @post.image.last
+  end
+
+  def show_with_restriction
+    show
+    render :show
   end
 
   def show_target_image

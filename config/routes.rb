@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :posts do
     member do
       get 'show_target_image', to: 'posts#show_target_image'
+      get 'show_with_restriction', to: 'posts#show_with_restriction'
     end
   end
   devise_for:users
