@@ -2,11 +2,11 @@ class Post < ApplicationRecord
   require "opencv"
   require "RMagick"
   mount_uploader :photo, PhotoUploader
-  def get_coordinate
+  def get_coordinate(canny_num_max, canny_num_min)
 
     cvmat = OpenCV::CvMat.load(self.absolute_photo_path)
     cvmat = cvmat.BGR2GRAY
-    canny = cvmat.canny(50, 150)
+    canny = cvmat.canny(canny_num_min, canny_num_max)
     contour = canny.find_contours(:mode => OpenCV::CV_RETR_LIST, :method => OpenCV::CV_CHAIN_APPROX_SIMPLE)
 
     contour_array = []

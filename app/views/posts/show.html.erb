@@ -1,3 +1,27 @@
+<script type="application/javascript">
+  var ctx;
+  var img;
+
+  $(document).on('turbolinks:load', function() {
+    img = document.getElementById("original-image");
+    ctx = document.getElementById("check_errors").getContext("2d");
+    ctx.canvas.width = gon.width;
+    ctx.canvas.height = gon.height;
+    ctx.drawImage(img, 0, 0);
+    gon.num_array.forEach(function(square){
+        ctx.rect(square.x, square.y, square.w, square.h);
+        ctx.lineWidth="4";
+        ctx.strokeStyle="red";
+        ctx.stroke();
+        ctx.font = "bold " + square.w + "px arial";
+        ctx.fillStyle="red";
+        ctx.fillText(square.n, square.x, square.y + square.h);
+    })
+    ctx.canvas.style.width = '100%';
+    ctx.canvas.style.height = '100%';
+  })
+</script>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -52,29 +76,4 @@
 <% end %>
 </p>
 <%= link_to 'Back', posts_path %>
-
-<script type="application/javascript">
-  var ctx;
-  var img;
-
-  $(document).on('turbolinks:load', function() {
-    img = document.getElementById("original-image");
-    ctx = document.getElementById("check_errors").getContext("2d");
-    ctx.canvas.width = gon.width;
-    ctx.canvas.height = gon.height;
-    ctx.drawImage(img, 0, 0);
-    gon.num_array.forEach(function(square){
-        ctx.rect(square.x, square.y, square.w, square.h);
-        ctx.lineWidth="4";
-        ctx.strokeStyle="red";
-        ctx.stroke();
-        ctx.font = "bold " + square.w + "px arial";
-        ctx.fillStyle="red";
-        ctx.fillText(square.n, square.x, square.y + square.h);
-    })
-    ctx.canvas.style.width = '100%';
-    ctx.canvas.style.height = '100%';
-  })
-</script>
-
 

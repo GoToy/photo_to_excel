@@ -14,6 +14,14 @@ class PostsController < ApplicationController
     unless @x_cell_num&.nonzero?
       @x_cell_num = 10
     end
+    @canny_num_min = params[:canny_num_min]&.to_i
+    unless @x_cell_num&.nonzero?
+      @canny_num_min = 50
+    end
+    @canny_num_max = params[:canny_num_max]&.to_i
+    unless @canny_num_max&.nonzero?
+      @canny_num_max = 150
+    end
     @num_array = @post.convert2string(@x_cell_num)
     gon.num_array = @num_array
     gon.width = @post.image.first
