@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :show_with_restriction, :edit, :update, :destroy, :show_target_image]
+  before_action :set_post, only: [:show, :show_with_restriction, :show_with_restriction_for_canny_min, :show_with_restriction_for_canny_max, :edit, :update, :destroy, :show_target_image]
 
   # GET /posts
   # GET /posts.json
@@ -32,6 +32,18 @@ class PostsController < ApplicationController
     show
     render :show
   end
+
+  def show_with_restriction_for_canny_min
+    show
+    render :show
+  end
+
+  def show_with_restriction_for_canny_max
+    show
+    render :show
+  end
+
+
 
   def show_target_image
     image = Magick::Image.read(@post.absolute_photo_path).first

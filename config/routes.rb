@@ -3,6 +3,8 @@ Rails.application.routes.draw do
     member do
       get 'show_target_image', to: 'posts#show_target_image'
       get 'show_with_restriction', to: 'posts#show_with_restriction'
+      get 'show_with_restriction_for_canny_min', to: 'show_with_restriction_for_canny_min'
+      get 'show_with_restriction_for_canny_max', to: 'show_with_restriction_for_canny_max'
     end
   end
   devise_for:users
