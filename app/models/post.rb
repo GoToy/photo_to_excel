@@ -2,7 +2,7 @@ class Post < ApplicationRecord
   require "opencv"
   require "RMagick"
   mount_uploader :photo, PhotoUploader
-  def get_coordinate(canny_num_max, canny_num_min)
+  def get_coordinate(canny_num_min, canny_num_max)
 
     cvmat = OpenCV::CvMat.load(self.absolute_photo_path)
     cvmat = cvmat.BGR2GRAY
@@ -25,8 +25,8 @@ class Post < ApplicationRecord
     contour_array
   end
 
-  def formatted_coordinate_data(img_width, x_cell_num)
-    contour_array = self.get_coordinate
+  def formatted_coordinate_data(img_width, x_cell_num, canny_num_min, canny_num_max)
+    contour_array = self.get_coordinate(canny_num_min, canny_num_max)
     coordinate_data_array = []
     contour_array.each do |contour|
       if contour
@@ -54,7 +54,7 @@ class Post < ApplicationRecord
      width, height = img.columns, img.rows
   end
 
-  def convert2string(x_cell_num)
+  def convert2string(x_cell_num, canny_num_min, canny_num_max)
     e = Tesseract::Engine.new { |e|
       e.language = :eng
       e.whitelist = '1234567890,'
@@ -62,7 +62,10 @@ class Post < ApplicationRecord
     original_image = Magick::Image.read(self.absolute_photo_path).first
     num_array = []
 
-    formatted_coordinates = self.formatted_coordinate_data(original_image.columns, x_cell_num)
+    formatted_coordinates = self.formatted_coordinate_data(original_image.columns,
+                                                           x_cell_num,
+                                                           canny_num_min,
+                                                           canny_num_max)
 
     formatted_coordinates.each do |formatted_coordinate|
       image = original_image.crop(formatted_coordinate[:x],

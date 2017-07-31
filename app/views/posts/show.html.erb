@@ -36,18 +36,18 @@
      <h4>
       <%= "現在min_canny #{@canny_num_min}, max_canny #{@canny_num_max} で絞り込み中" %>
     </h4>
-    <%= form_for(@post, url: {action: :show_with_restriction}, html: {method: :get})do |f| %>
-      <%= number_field_tag "x_cell_num", "", placeholder: "方眼紙のx方向のマスの数を入力してください", style: "width: 300px" %>
-      <%= submit_tag "絞り込む" %>
-    <% end %>
-    <%= form_for(@post, url: {action: :show_with_restriction_for_canny_min}, html: {method: :get})do |f| %>
-      <%= number_field_tag "canny_num_min", "", placeholder: "cannyの下限を入力してください", style: "width: 300px" %>
-      <%= submit_tag "絞り込む" %>
-    <% end %>
-    <%= form_for(@post, url: {action: :show_with_restriction_for_canny_max}, html: {method: :get})do |f| %>
-      <%= number_field_tag "canny_num_max", "", placeholder: "cannyの上限を入力してください", style: "width: 300px" %>
-      <%= submit_tag "絞り込む" %>
-    <% end %>
+    <div class="row">
+      <%= form_for(@post, url: {action: :show_with_restriction}, html: {method: :get})do |f| %>
+        <div class="row">
+          <div class="col-xs-6 col-xs-offset-3 text-left">
+            <%= number_field_tag "x_cell_num", "", placeholder: "方眼紙のx方向のマスの数を入力してください", style: "width: 300px" %>
+            <%= number_field_tag "canny_num_min", "", placeholder: "cannyの下限を入力してください", style: "width: 300px" %>
+            <%= number_field_tag "canny_num_max", "", placeholder: "cannyの上限を入力してください", style: "width: 300px" %>
+            <%= submit_tag "絞り込む" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>
 
