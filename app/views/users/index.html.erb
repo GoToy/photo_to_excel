@@ -69,6 +69,7 @@
       <tr>
          <th>Name</th>
          <th></th>
+         <th></th>
      </tr>
     </thead>
  
@@ -76,6 +77,7 @@
       <% @users_friends.each do |user| %>
       <tr>
        <td><%= user.username %></td>
+       <td><%= link_to 'Show', posts_path(user_id: user.id), :method => :get  %></td>
        <td><%= link_to 'Remove', remove_friendship_user_path(user), :method => :delete  %></td>
  
   

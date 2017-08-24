@@ -4,7 +4,11 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+     if params[:user_id]
+     @posts = Post.where(user_id: params[:user_id])
+     else
+     @posts = current_user.posts
+     end
   end
 
   # GET /posts/1
@@ -112,6 +116,6 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:photo)
+      params.require(:post).permit(:photo, :user_id)
     end
 end
