@@ -1,6 +1,9 @@
 class Post < ApplicationRecord
   require "opencv"
   require "RMagick"
+  require "csv"
+  require "chunky_png"
+
   mount_uploader :photo, PhotoUploader
   def get_coordinate(canny_num_min, canny_num_max)
 
@@ -78,10 +81,63 @@ class Post < ApplicationRecord
       num_hash[:y] = formatted_coordinate[:y]
       num_hash[:w] = formatted_coordinate[:w]
       num_hash[:h] = formatted_coordinate[:h]
-      num_hash[:n] = e.text_for(image).strip
+      num_hash[:n] = convert2string_fann(image)
       num_array << num_hash
     end
 
     num_array
+  end
+
+  def convert2string_fann(image)
+    pixels = image.export_pixels_to_str(0, 0, image.columns, image.rows, 'RGBA')
+    canvas = ChunkyPNG::Canvas.from_rgba_stream(image.columns, image.rows, pixels)
+
+    # canvas.save 'input.png'
+    canvas.grayscale!
+    canvas = center_and_downsample(canvas)
+    # canvas.save 'cropped.png'
+    random_cropped = 5.times.map { canvas.crop(rand(5), rand(5), 24, 24) }
+    predict_sums = Array.new(10, 0)
+    random_cropped.each do |cropped|
+      pixels = cropped.pixels
+      predict = RubyFann::Standard.new(filename: "#{Rails.public_path}/trained_nn_300_60000_7_crop.net").run(pixels)
+      predict.each_with_index {|val, i| predict_sums[i] += val}
+    end
+
+    decode_prediction(predict_sums)
+  end
+
+  def center_and_downsample(canvas)
+    canvas.trim!
+    canvas = ChunkyPNG::Canvas.new(canvas.width,
+                                   canvas.height,
+                                   binarize_pixels(canvas))
+    size = [canvas.width, canvas.height].max
+    square = ChunkyPNG::Canvas.new(size, size, ChunkyPNG::Color::TRANSPARENT)
+    offset_x = ((size - canvas.width) / 2.0).floor
+    offset_y = ((size - canvas.height) / 2.0).floor
+    square.compose! canvas, offset_x, offset_y
+    square.resample_bilinear!(20,20)
+    square.border! 4, ChunkyPNG::Color::TRANSPARENT
+    square
+  end
+
+  def binarize_pixels(canvas)
+    normalize = -> (val, fromLow, fromHigh, toLow, toHigh) { (val - fromLow) * (toHigh - toLow) / (fromHigh - fromLow).to_f }
+
+    pixels = []
+    canvas.height.times do |y|
+      canvas.width.times do |x|
+        pixels << canvas[x, y]
+      end
+    end
+
+    max, min = pixels.max, pixels.min
+    pixels = pixels.map {|p| normalize.(p, min, max, 0, 255) }
+    pixels = pixels.map {|p| p > 126 ? 0 : 255 }
+  end
+
+  def decode_prediction(result)
+    (0..9).max_by {|i| result[i]}
   end
 end
