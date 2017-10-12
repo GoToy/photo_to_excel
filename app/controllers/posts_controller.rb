@@ -26,7 +26,9 @@ class PostsController < ApplicationController
     unless @canny_num_max&.nonzero?
       @canny_num_max = 150
     end
-    @num_array = @post.convert2string(@x_cell_num, @canny_num_min, @canny_num_max)
+    @num_array = @post.convert2string(@x_cell_num,
+                                      @canny_num_min,
+                                      @canny_num_max)
     gon.num_array = @num_array
     gon.width = @post.image.first
     gon.height = @post.image.last

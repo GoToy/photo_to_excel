@@ -48,6 +48,24 @@ class Post < ApplicationRecord
     coordinate_data_array
   end
 
+  def formatted_fixed_coordinate_data(img_width, x_cell_num)
+    coordinate_data_array = []
+
+    x_cell_num.times do |y|
+      x_cell_num.times do |x|
+        cell_width = img_width / x_cell_num * 1.0
+        coordinate_data_hash = {}
+        coordinate_data_hash[:x] = cell_width * x
+        coordinate_data_hash[:y] = cell_width * y
+        coordinate_data_hash[:h] = cell_width
+        coordinate_data_hash[:w] = cell_width
+        coordinate_data_array << coordinate_data_hash
+      end
+    end
+
+    coordinate_data_array
+  end
+
   def absolute_photo_path
     Rails.root.to_s + "/public" + self.photo_url
   end
@@ -58,18 +76,16 @@ class Post < ApplicationRecord
   end
 
   def convert2string(x_cell_num, canny_num_min, canny_num_max)
-    e = Tesseract::Engine.new { |e|
-      e.language = :eng
-      e.whitelist = '0123456789,'
-      e.page_segmentation_mode = :single_char
-  }
+    counter = x_cell_num * x_cell_num
     original_image = Magick::Image.read(self.absolute_photo_path).first
     num_array = []
 
-    formatted_coordinates = self.formatted_coordinate_data(original_image.columns,
-                                                           x_cell_num,
-                                                           canny_num_min,
-                                                           canny_num_max)
+    #formatted_coordinates = self.formatted_coordinate_data(original_image.columns,
+    #                                                       x_cell_num,
+    #                                                       canny_num_min,
+    #                                                       canny_num_max)
+    formatted_coordinates = formatted_fixed_coordinate_data(original_image.columns,
+                                                            x_cell_num)
 
     formatted_coordinates.each do |formatted_coordinate|
       image = original_image.crop(formatted_coordinate[:x],
@@ -83,6 +99,8 @@ class Post < ApplicationRecord
       num_hash[:h] = formatted_coordinate[:h]
       num_hash[:n] = convert2string_fann(image)
       num_array << num_hash
+      counter = counter - 1
+      p "#{counter} left"
     end
 
     num_array
@@ -96,7 +114,7 @@ class Post < ApplicationRecord
     canvas.grayscale!
     canvas = center_and_downsample(canvas)
     # canvas.save 'cropped.png'
-    random_cropped = 5.times.map { canvas.crop(rand(5), rand(5), 24, 24) }
+    random_cropped = 4.times.map { canvas.crop(rand(5), rand(5), 24, 24) }
     predict_sums = Array.new(10, 0)
     random_cropped.each do |cropped|
       pixels = cropped.pixels
